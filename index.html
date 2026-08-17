@@ -19,7 +19,7 @@
             --danger-bg: #fef2f2;
             --border: #e5e7eb;
             --btn-hover: #e5e7eb;
-            --shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
         }
 
         [data-theme="dark"] {
@@ -34,7 +34,7 @@
             --danger-bg: #7f1d1d;
             --border: #374151;
             --btn-hover: #374151;
-            --shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
+            --shadow: 0 -4px 15px rgba(0, 0, 0, 0.2);
         }
 
         * {
@@ -51,7 +51,9 @@
             color: var(--text-main);
             display: flex;
             justify-content: center;
-            min-height: 100dvh; 
+            height: 100vh;
+            height: 100dvh;
+            overflow: hidden; 
         }
 
         .app-container {
@@ -59,80 +61,106 @@
             max-width: 500px;
             display: flex;
             flex-direction: column;
-            min-height: 100dvh;
+            height: 100%;
         }
 
-        /* Header */
+        /* Header - Compact */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 20px;
+            padding: 5px 15px; 
+            flex-shrink: 0;
         }
-        .header h2 { font-size: 1.4rem; font-weight: 800; margin: 0; }
+        .header h2 { font-size: 1.2rem; font-weight: 800; margin: 0; }
         
         .header-actions {
             display: flex;
-            gap: 8px;
+            gap: 6px;
             align-items: center;
         }
 
         .theme-toggle {
             background: var(--card-bg);
             border: 1px solid var(--border);
-            font-size: 1.1rem;
-            padding: 8px 10px;
-            border-radius: 10px;
+            font-size: 1rem;
+            padding: 6px 10px;
+            border-radius: 8px;
             cursor: pointer;
             color: var(--text-main);
-            box-shadow: var(--shadow);
         }
 
         .expense-toggle {
             background: var(--danger-bg);
             color: var(--danger);
             border: 1px solid transparent;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 700;
-            padding: 8px 12px;
-            border-radius: 10px;
+            padding: 6px 10px;
+            border-radius: 8px;
             cursor: pointer;
-            box-shadow: var(--shadow);
             transition: 0.2s;
         }
 
-        /* Top Dashboard */
+        /* Top Dashboard - Compact */
         .dashboard {
             display: flex;
-            justify-content: space-between;
-            margin: 5px 20px 10px;
-            padding: 15px;
+            flex-direction: column;
+            margin: 0 15px 5px;
+            padding: 8px 12px;
             background: var(--card-bg);
-            border-radius: 16px;
+            border-radius: 12px;
             box-shadow: var(--shadow);
+            flex-shrink: 0;
+        }
+        .dash-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 5px;
+        }
+        .dash-title { font-size: 0.8rem; font-weight: 700; color: var(--text-muted); }
+        .view-selector {
+            background: var(--primary-bg);
+            color: var(--primary);
+            border: none;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            outline: none;
+            cursor: pointer;
+        }
+        
+        .dash-stats {
+            display: flex;
+            justify-content: space-between;
             cursor: pointer;
         }
         .dash-item { text-align: center; flex: 1; }
         .dash-item:not(:last-child) { border-right: 1px solid var(--border); }
-        .dash-label { font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
-        .dash-val { font-size: 1.1rem; font-weight: 800; margin-top: 4px; }
+        .dash-label { font-size: 0.7rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
+        .dash-val { font-size: 1rem; font-weight: 800; margin-top: 2px; }
+        
         .text-success { color: var(--success); }
         .text-danger { color: var(--danger); }
         .text-primary { color: var(--primary); }
 
         /* Inputs Section */
         .inputs-card {
-            margin: 5px 20px 10px;
+            margin: 0 15px 5px;
             background: var(--card-bg);
-            border-radius: 16px;
+            border-radius: 12px;
             box-shadow: var(--shadow);
-            overflow: hidden;
+            flex-shrink: 0;
         }
         .input-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 16px 20px;
+            padding: 10px 15px; 
             cursor: pointer;
             border-left: 4px solid transparent;
             transition: 0.2s ease;
@@ -146,50 +174,53 @@
             background: var(--danger-bg);
             border-left-color: var(--danger);
         }
-        .lbl { font-size: 1rem; font-weight: 600; color: var(--text-muted); }
-        .val { font-size: 1.6rem; font-weight: 800; color: var(--text-main); }
+        .lbl { font-size: 0.9rem; font-weight: 600; color: var(--text-muted); }
+        .val { font-size: 1.4rem; font-weight: 800; color: var(--text-main); }
         .active .lbl { color: var(--primary); }
         .expense-box.active .lbl { color: var(--danger); }
 
         /* Dynamic Result */
         .result-area {
             text-align: center;
-            margin: 5px 20px;
+            margin: 0 15px;
             padding: 5px 0;
+            flex-shrink: 0;
         }
-        .result-amount { font-size: 2.4rem; font-weight: 800; letter-spacing: -1px; }
-        .result-msg { font-size: 0.9rem; font-weight: 600; color: var(--text-muted); margin-top: 2px; }
+        .result-amount { font-size: 2rem; font-weight: 800; letter-spacing: -1px; }
+        .result-msg { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-top: 2px; }
 
         /* Bottom Sheet Numpad */
         .bottom-sheet {
-            margin-top: auto;
             background: var(--card-bg);
-            border-radius: 30px 30px 0 0;
-            padding: 20px;
-            box-shadow: var(--shadow);
+            border-radius: 20px 20px 0 0;
+            padding: 10px 15px 15px;
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.05);
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 8px;
+            flex-grow: 1; 
+            min-height: 0; 
         }
 
         /* Quick Cash */
         .quick-cash {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             overflow-x: auto;
             scrollbar-width: none;
-            padding-bottom: 5px;
+            padding-bottom: 2px;
+            flex-shrink: 0;
         }
         .quick-cash::-webkit-scrollbar { display: none; }
         .pill {
             flex: 0 0 auto;
-            padding: 10px 20px;
+            padding: 8px 16px;
             background: var(--bg-color);
             border: 1px solid var(--border);
             color: var(--text-main);
-            border-radius: 20px;
+            border-radius: 12px;
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 0.9rem;
             cursor: pointer;
         }
         .pill:active { background: var(--primary); color: white; border-color: var(--primary); }
@@ -198,22 +229,27 @@
         .numpad {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
+            grid-template-rows: repeat(4, 1fr);
+            gap: 6px;
+            flex-grow: 1; 
+            min-height: 0;
         }
         .num-btn {
             background: transparent;
-            border: none;
+            border: 1px solid var(--border);
             color: var(--text-main);
-            font-size: 1.6rem;
+            font-size: 1.4rem;
             font-weight: 700;
-            padding: 14px 0;
-            border-radius: 16px;
+            border-radius: 12px;
             cursor: pointer;
-            transition: background 0.1s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.1s;
         }
-        .num-btn:active { background: var(--btn-hover); }
-        .btn-action { color: var(--danger); font-size: 1.1rem; font-weight: 800; }
-        .btn-icon { font-size: 1.4rem; }
+        .num-btn:active { background: var(--btn-hover); transform: scale(0.95); }
+        .btn-action { color: var(--danger); font-size: 1rem; font-weight: 800; border: none; background: var(--danger-bg); }
+        .btn-icon { font-size: 1.2rem; border: none; background: var(--btn-hover); }
 
         /* Save Button */
         .save-btn {
@@ -221,16 +257,16 @@
             background: var(--primary);
             color: white;
             border: none;
-            padding: 16px;
-            border-radius: 16px;
+            padding: 14px;
+            border-radius: 12px;
             font-weight: 800;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
-            margin-top: 5px;
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+            flex-shrink: 0;
         }
         .save-btn:active { transform: scale(0.98); }
-        .save-btn.expense-mode { background: var(--danger); box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3); }
+        .save-btn.expense-mode { background: var(--danger); box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3); }
 
     </style>
 </head>
@@ -248,22 +284,31 @@
         </div>
 
         <!-- Dashboard -->
-        <div class="dashboard" onclick="resetHistory()" title="Tap to Clear History">
-            <div class="dash-item">
-                <div class="dash-label">Income (<span id="trip-count">0</span>)</div>
-                <div class="dash-val text-success" id="daily-income">0</div>
+        <div class="dashboard">
+            <div class="dash-header">
+                <span class="dash-title">Summary</span>
+                <select class="view-selector" id="view-selector" onchange="updateHistoryDisplay()">
+                    <option value="daily">Today</option>
+                    <option value="monthly">This Month</option>
+                </select>
             </div>
-            <div class="dash-item">
-                <div class="dash-label">Expenses</div>
-                <div class="dash-val text-danger" id="daily-expense">0</div>
-            </div>
-            <div class="dash-item">
-                <div class="dash-label">Net Profit</div>
-                <div class="dash-val text-primary" id="daily-profit">0</div>
+            <div class="dash-stats" onclick="resetHistory()" title="Tap to Clear Displayed History">
+                <div class="dash-item">
+                    <div class="dash-label">In (<span id="trip-count">0</span>)</div>
+                    <div class="dash-val text-success" id="dash-income">0</div>
+                </div>
+                <div class="dash-item">
+                    <div class="dash-label">Out</div>
+                    <div class="dash-val text-danger" id="dash-expense">0</div>
+                </div>
+                <div class="dash-item">
+                    <div class="dash-label">Net</div>
+                    <div class="dash-val text-primary" id="dash-profit">0</div>
+                </div>
             </div>
         </div>
 
-        <!-- Main Inputs (Fare & Cash) -->
+        <!-- Main Inputs -->
         <div class="inputs-card" id="main-inputs">
             <div class="input-row active" id="fare-box" onclick="setActive('fare')">
                 <span class="lbl">Fare</span>
@@ -275,10 +320,10 @@
             </div>
         </div>
 
-        <!-- Expense Input (Hidden by default) -->
+        <!-- Expense Input -->
         <div class="inputs-card" id="expense-inputs" style="display: none;">
             <div class="input-row expense-box active" id="expense-box" onclick="setActive('expense')">
-                <span class="lbl">Add Expense (Fuel/Food)</span>
+                <span class="lbl">Add Expense (Fuel)</span>
                 <span class="val">Rs <span id="expense-val">0</span></span>
             </div>
         </div>
@@ -311,9 +356,9 @@
                 <button class="num-btn" onclick="inputNum('7')">7</button>
                 <button class="num-btn" onclick="inputNum('8')">8</button>
                 <button class="num-btn" onclick="inputNum('9')">9</button>
-                <button class="num-btn btn-action" onclick="clearActive()">CLEAR</button>
+                <button class="num-btn btn-action" onclick="clearActive()">CLR</button>
                 <button class="num-btn" onclick="inputNum('0')">0</button>
-                <button class="num-btn btn-action btn-icon" onclick="backspace()">⌫</button>
+                <button class="num-btn btn-icon" onclick="backspace()">⌫</button>
             </div>
 
             <!-- Save Action -->
@@ -330,52 +375,101 @@
         let shouldClearCash = false;
         let autoClearTimer;
 
-        // Load History Data
-        let totalIncome = parseFloat(localStorage.getItem('uberTotalIncome')) || 0;
-        let tripCount = parseInt(localStorage.getItem('uberTripCount')) || 0;
-        let totalExpense = parseFloat(localStorage.getItem('uberTotalExpense')) || 0;
+        let dailyIncome = 0, dailyExpense = 0, dailyTrips = 0;
+        let monthlyIncome = 0, monthlyExpense = 0, monthlyTrips = 0;
+
+        // BUG FIX: Local Timezone Date Calculation
+        function getLocalDateStrings() {
+            let now = new Date();
+            let year = now.getFullYear();
+            let month = String(now.getMonth() + 1).padStart(2, '0');
+            let day = String(now.getDate()).padStart(2, '0');
+            
+            return {
+                dateStr: `${year}-${month}-${day}`,
+                monthStr: `${year}-${month}`
+            };
+        }
+
+        function checkDateAndLoad() {
+            let dates = getLocalDateStrings();
+            let savedDate = localStorage.getItem('currentDate');
+            let savedMonth = localStorage.getItem('currentMonth');
+
+            if (savedDate !== dates.dateStr) {
+                dailyIncome = 0; dailyExpense = 0; dailyTrips = 0;
+                localStorage.setItem('currentDate', dates.dateStr);
+                saveDailyToStorage();
+            } else {
+                dailyIncome = parseFloat(localStorage.getItem('dailyIncome')) || 0;
+                dailyExpense = parseFloat(localStorage.getItem('dailyExpense')) || 0;
+                dailyTrips = parseInt(localStorage.getItem('dailyTrips')) || 0;
+            }
+
+            if (savedMonth !== dates.monthStr) {
+                monthlyIncome = 0; monthlyExpense = 0; monthlyTrips = 0;
+                localStorage.setItem('currentMonth', dates.monthStr);
+                saveMonthlyToStorage();
+            } else {
+                monthlyIncome = parseFloat(localStorage.getItem('monthlyIncome')) || 0;
+                monthlyExpense = parseFloat(localStorage.getItem('monthlyExpense')) || 0;
+                monthlyTrips = parseInt(localStorage.getItem('monthlyTrips')) || 0;
+            }
+        }
+
+        function saveDailyToStorage() {
+            localStorage.setItem('dailyIncome', dailyIncome);
+            localStorage.setItem('dailyExpense', dailyExpense);
+            localStorage.setItem('dailyTrips', dailyTrips);
+        }
+
+        function saveMonthlyToStorage() {
+            localStorage.setItem('monthlyIncome', monthlyIncome);
+            localStorage.setItem('monthlyExpense', monthlyExpense);
+            localStorage.setItem('monthlyTrips', monthlyTrips);
+        }
+
+        checkDateAndLoad();
         updateHistoryDisplay();
 
-        // Number Formatting logic (Adds commas like 1,500)
         function formatNumber(numStr) {
             if (!numStr || numStr === "") return "0";
             return parseInt(numStr, 10).toLocaleString('en-US');
         }
 
-        // Mode Switcher (Fare vs Expense)
+        // BUG FIX: Clear inputs when toggling mode
         function toggleExpenseMode() {
             isExpenseMode = !isExpenseMode;
             let toggleBtn = document.getElementById('expense-toggle-btn');
             let saveBtn = document.getElementById('save-btn');
+            
+            fareStr = ""; cashStr = ""; expenseStr = "";
 
             if (isExpenseMode) {
                 document.getElementById('main-inputs').style.display = 'none';
                 document.getElementById('quick-cash-section').style.display = 'none';
                 document.getElementById('expense-inputs').style.display = 'block';
-                
                 activeField = 'expense';
                 
                 toggleBtn.innerText = "✖ Cancel";
-                toggleBtn.style.background = "var(--btn-hover)";
+                toggleBtn.style.background = "var(--border)";
                 toggleBtn.style.color = "var(--text-main)";
-                
                 saveBtn.innerText = "SAVE EXPENSE";
                 saveBtn.classList.add('expense-mode');
             } else {
                 document.getElementById('main-inputs').style.display = 'block';
                 document.getElementById('quick-cash-section').style.display = 'flex';
                 document.getElementById('expense-inputs').style.display = 'none';
-                
                 activeField = 'fare';
                 setActive('fare');
                 
                 toggleBtn.innerText = "⛽ Expense";
                 toggleBtn.style.background = "var(--danger-bg)";
                 toggleBtn.style.color = "var(--danger)";
-                
                 saveBtn.innerText = "SAVE DATA";
                 saveBtn.classList.remove('expense-mode');
             }
+            updateDisplay();
             calculate();
         }
 
@@ -392,7 +486,6 @@
         }
 
         function updateDisplay() {
-            // Apply number formatting to inputs
             document.getElementById('fare-val').innerText = formatNumber(fareStr);
             document.getElementById('cash-val').innerText = formatNumber(cashStr);
             document.getElementById('expense-val').innerText = formatNumber(expenseStr);
@@ -400,7 +493,6 @@
 
         function inputNum(num) {
             let targetStr = "";
-            
             if (activeField === "fare") targetStr = fareStr;
             else if (activeField === "cash") {
                 if (shouldClearCash) { cashStr = ""; shouldClearCash = false; }
@@ -408,13 +500,8 @@
             }
             else if (activeField === "expense") targetStr = expenseStr;
 
-            // BUG FIX: Prevent leading zeros when typing 0 or 00 initially
             if (targetStr === "" || targetStr === "0") {
-                if (num === "00" || num === "0") {
-                    targetStr = "0";
-                } else {
-                    targetStr = num;
-                }
+                targetStr = num === "00" ? "0" : num;
             } else {
                 targetStr += num;
             }
@@ -521,23 +608,24 @@
 
         function saveData() {
             clearTimeout(autoClearTimer);
+            checkDateAndLoad(); 
+
             let fare = parseFloat(fareStr) || 0;
             let exp = parseFloat(expenseStr) || 0;
 
             if (isExpenseMode) {
                 if (exp > 0) {
-                    totalExpense += exp;
-                    localStorage.setItem('uberTotalExpense', totalExpense);
+                    dailyExpense += exp; monthlyExpense += exp;
+                    saveDailyToStorage(); saveMonthlyToStorage();
                     updateHistoryDisplay();
                 }
                 expenseStr = "";
                 toggleExpenseMode(); 
             } else {
                 if (fare > 0) {
-                    totalIncome += fare;
-                    tripCount++;
-                    localStorage.setItem('uberTotalIncome', totalIncome);
-                    localStorage.setItem('uberTripCount', tripCount);
+                    dailyIncome += fare; monthlyIncome += fare;
+                    dailyTrips++; monthlyTrips++;
+                    saveDailyToStorage(); saveMonthlyToStorage();
                     updateHistoryDisplay();
                 }
                 fareStr = ""; cashStr = ""; 
@@ -549,29 +637,34 @@
         }
 
         function updateHistoryDisplay() {
-            let profit = totalIncome - totalExpense;
+            let view = document.getElementById('view-selector').value;
             
-            // Format numbers with commas for dashboard
-            document.getElementById('daily-income').innerText = totalIncome.toLocaleString('en-US');
-            document.getElementById('trip-count').innerText = tripCount;
-            document.getElementById('daily-expense').innerText = totalExpense.toLocaleString('en-US');
+            let inc = view === 'daily' ? dailyIncome : monthlyIncome;
+            let exp = view === 'daily' ? dailyExpense : monthlyExpense;
+            let trips = view === 'daily' ? dailyTrips : monthlyTrips;
+            let profit = inc - exp;
             
-            let profitEl = document.getElementById('daily-profit');
+            document.getElementById('dash-income').innerText = inc.toLocaleString('en-US');
+            document.getElementById('trip-count').innerText = trips;
+            document.getElementById('dash-expense').innerText = exp.toLocaleString('en-US');
+            
+            let profitEl = document.getElementById('dash-profit');
             profitEl.innerText = profit.toLocaleString('en-US');
-            
-            if(profit < 0) {
-                profitEl.className = "dash-val text-danger";
-            } else {
-                profitEl.className = "dash-val text-primary";
-            }
+            profitEl.className = profit < 0 ? "dash-val text-danger" : "dash-val text-primary";
         }
 
         function resetHistory() {
-            if (confirm("Clear today's Income, Expenses and Profit?")) {
-                totalIncome = 0; tripCount = 0; totalExpense = 0;
-                localStorage.removeItem('uberTotalIncome');
-                localStorage.removeItem('uberTripCount');
-                localStorage.removeItem('uberTotalExpense');
+            let view = document.getElementById('view-selector').value;
+            let msg = view === 'daily' ? "Clear Today's data?" : "Clear This Month's data?";
+            
+            if (confirm(msg)) {
+                if (view === 'daily') {
+                    dailyIncome = 0; dailyExpense = 0; dailyTrips = 0;
+                    saveDailyToStorage();
+                } else {
+                    monthlyIncome = 0; monthlyExpense = 0; monthlyTrips = 0;
+                    saveMonthlyToStorage();
+                }
                 updateHistoryDisplay();
             }
         }
