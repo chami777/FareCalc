@@ -3,342 +3,321 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Rider Profit & Fare Calc</title>
+    <title>Fare & Profit</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+
         :root {
-            --bg-color: #f0f2f5;
-            --container-bg: #ffffff;
-            --text-color: #1a1a1a;
-            --primary: #007bff;
-            --success: #28a745;
-            --warning: #ffc107;
-            --danger: #dc3545;
-            --border: #cccccc;
-            --btn-bg: #e4e6eb;
-            --active-bg: #e7f1ff;
-            --active-border: #007bff;
+            --bg-color: #f3f4f6;
+            --card-bg: #ffffff;
+            --text-main: #111827;
+            --text-muted: #6b7280;
+            --primary: #2563eb;
+            --primary-bg: #eff6ff;
+            --success: #10b981;
+            --danger: #ef4444;
+            --danger-bg: #fef2f2;
+            --border: #e5e7eb;
+            --btn-hover: #e5e7eb;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
         }
 
         [data-theme="dark"] {
-            --bg-color: #000000;
-            --container-bg: #121212;
-            --text-color: #ffffff;
-            --primary: #4da3ff;
-            --success: #00e676;
-            --warning: #ffb300;
-            --danger: #ff5252;
-            --border: #333333;
-            --btn-bg: #242526;
-            --active-bg: #1a3a5c;
-            --active-border: #4da3ff;
+            --bg-color: #111827;
+            --card-bg: #1f2937;
+            --text-main: #f9fafb;
+            --text-muted: #9ca3af;
+            --primary: #3b82f6;
+            --primary-bg: #1e3a8a;
+            --success: #10b981;
+            --danger: #ef4444;
+            --danger-bg: #7f1d1d;
+            --border: #374151;
+            --btn-hover: #374151;
+            --shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', system-ui, sans-serif;
+            font-family: 'Inter', system-ui, sans-serif;
             touch-action: manipulation;
             -webkit-tap-highlight-color: transparent;
         }
 
         body {
             background-color: var(--bg-color);
-            color: var(--text-color);
+            color: var(--text-main);
             display: flex;
             justify-content: center;
-            min-height: 100vh; 
             min-height: 100dvh; 
-            /* overflow: hidden ඉවත් කර ඇත, දැන් අවශ්‍ය නම් Scroll වේ */
         }
 
         .app-container {
             width: 100%;
             max-width: 500px;
-            background: var(--container-bg);
             display: flex;
             flex-direction: column;
             min-height: 100dvh;
         }
 
+        /* Header */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 8px 15px; 
-            background: var(--container-bg);
-            border-bottom: 2px solid var(--border);
-            position: sticky;
-            top: 0;
-            z-index: 10;
+            padding: 15px 20px;
         }
-
-        .header h2 { font-size: 1.2rem; font-weight: 800; margin: 0; }
-
-        .theme-toggle {
-            background: var(--btn-bg);
-            border: none;
-            font-size: 1.1rem;
-            padding: 6px 10px;
-            border-radius: 8px;
-            cursor: pointer;
-            color: var(--text-color);
-        }
-
-        .display-section {
-            padding: 8px 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 6px; /* කොටු අතර පරතරය අඩු කළා */
-        }
-
-        .input-box {
-            background: var(--btn-bg);
-            border: 2px solid transparent;
-            border-radius: 8px;
-            padding: 8px 12px; 
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            transition: 0.1s;
-        }
-
-        .input-box.active {
-            border-color: var(--active-border);
-            background-color: var(--active-bg);
-        }
+        .header h2 { font-size: 1.4rem; font-weight: 800; margin: 0; }
         
-        .input-box.expense-box {
-            border-left: 5px solid var(--danger);
-        }
-        .input-box.expense-box.active {
-            border-color: var(--danger);
-            background-color: #ff525215;
-        }
-
-        .input-box .label {
-            color: var(--text-color);
-            font-weight: 700;
-            font-size: 0.9rem; 
-            opacity: 0.8;
-        }
-
-        .input-box .value {
-            font-size: 1.4rem; 
-            font-weight: 800;
-        }
-
-        .quick-cash {
+        .header-actions {
             display: flex;
             gap: 8px;
-            padding: 2px 15px;
-            overflow-x: auto;
-            scrollbar-width: none; 
-        }
-        .quick-cash::-webkit-scrollbar { display: none; }
-        
-        .quick-cash button {
-            flex: 0 0 auto;
-            padding: 8px 12px; 
-            border: none;
-            background: var(--primary);
-            color: white;
-            border-radius: 8px;
-            font-weight: 800;
-            font-size: 1rem; 
-            cursor: pointer;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .quick-cash button:active { transform: scale(0.95); opacity: 0.8; }
-
-        .result-section {
-            margin: 6px 15px;
-            padding: 8px;
-            border-radius: 8px;
-            text-align: center;
-            background-color: var(--btn-bg);
-            border: 2px solid var(--border);
-        }
-        .result-amount { font-size: 1.8rem; font-weight: 900; letter-spacing: -1px; }
-        .denominations { font-size: 0.85rem; font-weight: 700; margin-top: 2px; opacity: 0.9; }
-
-        .numpad-container {
-            padding: 8px 15px;
-            background: var(--container-bg);
-            border-top: 2px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1; 
-        }
-
-        .numpad-controls {
-            display: flex;
-            margin-bottom: 6px;
-        }
-        .numpad-controls button {
-            width: 100%;
-            padding: 8px;
-            border-radius: 8px;
-            border: none;
-            background: var(--warning);
-            color: #000;
-            font-weight: 800;
-            font-size: 1rem;
-            cursor: pointer;
-        }
-        .numpad-controls button:active { transform: scale(0.97); }
-
-        .numpad {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-template-rows: repeat(4, 1fr); 
-            gap: 6px; 
-            flex-grow: 1; 
-        }
-
-        .numpad button {
-            background: var(--btn-bg);
-            border: none;
-            color: var(--text-color);
-            font-size: 1.6rem; 
-            font-weight: 800;
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
             align-items: center;
-            justify-content: center;
-            min-height: 45px; /* බොත්තම් සඳහා අවම උසක් */
         }
-        .numpad button:active {
-            background: var(--border);
-            transform: scale(0.95);
-        }
-        .btn-del { color: var(--danger) !important; font-size: 1.4rem !important; }
 
-        .dashboard-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 6px;
-            padding: 8px 15px;
-            background: var(--container-bg);
-            border-top: 2px solid var(--border);
-            text-align: center;
+        .theme-toggle {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            font-size: 1.1rem;
+            padding: 8px 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            color: var(--text-main);
+            box-shadow: var(--shadow);
+        }
+
+        .expense-toggle {
+            background: var(--danger-bg);
+            color: var(--danger);
+            border: 1px solid transparent;
+            font-size: 0.9rem;
+            font-weight: 700;
+            padding: 8px 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: 0.2s;
+        }
+
+        /* Top Dashboard */
+        .dashboard {
+            display: flex;
+            justify-content: space-between;
+            margin: 5px 20px 10px;
+            padding: 15px;
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
             cursor: pointer;
         }
-        .dash-box {
-            background: var(--btn-bg);
-            padding: 6px 4px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-        }
-        .dash-box small { font-weight: 700; opacity: 0.7; font-size: 0.7rem; }
-        .dash-box .val { font-size: 1rem; font-weight: 900; margin-top: 2px; }
-        
+        .dash-item { text-align: center; flex: 1; }
+        .dash-item:not(:last-child) { border-right: 1px solid var(--border); }
+        .dash-label { font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+        .dash-val { font-size: 1.1rem; font-weight: 800; margin-top: 4px; }
         .text-success { color: var(--success); }
         .text-danger { color: var(--danger); }
         .text-primary { color: var(--primary); }
-        
-        .profit-box { background: var(--active-bg); border-color: var(--primary); }
 
-        .bottom-action {
-            padding: 0 15px 12px 15px;
-            background: var(--container-bg);
+        /* Inputs Section */
+        .inputs-card {
+            margin: 5px 20px 10px;
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
         }
-        .save-btn { 
+        .input-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            cursor: pointer;
+            border-left: 4px solid transparent;
+            transition: 0.2s ease;
+        }
+        .input-row:not(:last-child) { border-bottom: 1px solid var(--border); }
+        .input-row.active {
+            background: var(--primary-bg);
+            border-left-color: var(--primary);
+        }
+        .input-row.expense-box.active {
+            background: var(--danger-bg);
+            border-left-color: var(--danger);
+        }
+        .lbl { font-size: 1rem; font-weight: 600; color: var(--text-muted); }
+        .val { font-size: 1.6rem; font-weight: 800; color: var(--text-main); }
+        .active .lbl { color: var(--primary); }
+        .expense-box.active .lbl { color: var(--danger); }
+
+        /* Dynamic Result */
+        .result-area {
+            text-align: center;
+            margin: 5px 20px;
+            padding: 5px 0;
+        }
+        .result-amount { font-size: 2.4rem; font-weight: 800; letter-spacing: -1px; }
+        .result-msg { font-size: 0.9rem; font-weight: 600; color: var(--text-muted); margin-top: 2px; }
+
+        /* Bottom Sheet Numpad */
+        .bottom-sheet {
+            margin-top: auto;
+            background: var(--card-bg);
+            border-radius: 30px 30px 0 0;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* Quick Cash */
+        .quick-cash {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            padding-bottom: 5px;
+        }
+        .quick-cash::-webkit-scrollbar { display: none; }
+        .pill {
+            flex: 0 0 auto;
+            padding: 10px 20px;
+            background: var(--bg-color);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        .pill:active { background: var(--primary); color: white; border-color: var(--primary); }
+
+        /* Numpad Grid */
+        .numpad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+        .num-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            font-size: 1.6rem;
+            font-weight: 700;
+            padding: 14px 0;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: background 0.1s;
+        }
+        .num-btn:active { background: var(--btn-hover); }
+        .btn-action { color: var(--danger); font-size: 1.1rem; font-weight: 800; }
+        .btn-icon { font-size: 1.4rem; }
+
+        /* Save Button */
+        .save-btn {
             width: 100%;
-            background: var(--success); 
-            color: white; 
-            border: none; 
-            padding: 12px; 
-            border-radius: 8px; 
-            font-weight: 900; 
-            font-size: 1.1rem;
-            cursor: pointer; 
-            box-shadow: 0 4px 6px rgba(40,167,69,0.3);
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 16px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+            margin-top: 5px;
         }
-        .save-btn:active { transform: scale(0.97); }
+        .save-btn:active { transform: scale(0.98); }
+        .save-btn.expense-mode { background: var(--danger); box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3); }
 
     </style>
 </head>
 <body>
 
     <div class="app-container">
+        
         <!-- Header -->
         <div class="header">
-            <h2>Profit & Fare Calc</h2>
-            <button class="theme-toggle" onclick="toggleTheme()" id="theme-icon">🌙</button>
-        </div>
-
-        <!-- Inputs -->
-        <div class="display-section">
-            <div class="input-box active" id="fare-box" onclick="setActive('fare')">
-                <span class="label">Fare (Rs)</span>
-                <span class="value" id="fare-val">0</span>
-            </div>
-            <div class="input-box" id="cash-box" onclick="setActive('cash')">
-                <span class="label">Cash (Rs)</span>
-                <span class="value" id="cash-val">0</span>
-            </div>
-            <div class="input-box expense-box" id="expense-box" onclick="setActive('expense')">
-                <span class="label">Expense (Fuel/Food)</span>
-                <span class="value" id="expense-val">0</span>
+            <h2>Fare & Profit</h2>
+            <div class="header-actions">
+                <button class="expense-toggle" id="expense-toggle-btn" onclick="toggleExpenseMode()">⛽ Expense</button>
+                <button class="theme-toggle" onclick="toggleTheme()" id="theme-icon">🌙</button>
             </div>
         </div>
 
-        <!-- Quick Cash Buttons -->
-        <div class="quick-cash">
-            <button onclick="quickCash(500)">500</button>
-            <button onclick="quickCash(1000)">1000</button>
-            <button onclick="quickCash(1500)">1500</button>
-            <button onclick="quickCash(2000)">2000</button>
-            <button onclick="quickCash(5000)">5000</button>
+        <!-- Dashboard -->
+        <div class="dashboard" onclick="resetHistory()" title="Tap to Clear History">
+            <div class="dash-item">
+                <div class="dash-label">Income (<span id="trip-count">0</span>)</div>
+                <div class="dash-val text-success" id="daily-income">0</div>
+            </div>
+            <div class="dash-item">
+                <div class="dash-label">Expenses</div>
+                <div class="dash-val text-danger" id="daily-expense">0</div>
+            </div>
+            <div class="dash-item">
+                <div class="dash-label">Net Profit</div>
+                <div class="dash-val text-primary" id="daily-profit">0</div>
+            </div>
         </div>
 
-        <!-- Result -->
-        <div class="result-section" id="result-box">
+        <!-- Main Inputs (Fare & Cash) -->
+        <div class="inputs-card" id="main-inputs">
+            <div class="input-row active" id="fare-box" onclick="setActive('fare')">
+                <span class="lbl">Fare</span>
+                <span class="val">Rs <span id="fare-val">0</span></span>
+            </div>
+            <div class="input-row" id="cash-box" onclick="setActive('cash')">
+                <span class="lbl">Cash Given</span>
+                <span class="val">Rs <span id="cash-val">0</span></span>
+            </div>
+        </div>
+
+        <!-- Expense Input (Hidden by default) -->
+        <div class="inputs-card" id="expense-inputs" style="display: none;">
+            <div class="input-row expense-box active" id="expense-box" onclick="setActive('expense')">
+                <span class="lbl">Add Expense (Fuel/Food)</span>
+                <span class="val">Rs <span id="expense-val">0</span></span>
+            </div>
+        </div>
+
+        <!-- Dynamic Result -->
+        <div class="result-area">
             <div class="result-amount" id="result-amount">Rs 0</div>
-            <div class="denominations" id="denominations">Change Amount</div>
+            <div class="result-msg" id="denominations">Change Amount</div>
         </div>
 
-        <!-- Numpad -->
-        <div class="numpad-container">
-            <div class="numpad-controls">
-                <button onclick="clearActive()">CLEAR INPUT</button>
+        <!-- Bottom Sheet Numpad -->
+        <div class="bottom-sheet">
+            <!-- Quick Cash -->
+            <div class="quick-cash" id="quick-cash-section">
+                <button class="pill" onclick="quickCash(500)">500</button>
+                <button class="pill" onclick="quickCash(1000)">1000</button>
+                <button class="pill" onclick="quickCash(1500)">1500</button>
+                <button class="pill" onclick="quickCash(2000)">2000</button>
+                <button class="pill" onclick="quickCash(5000)">5000</button>
             </div>
+
+            <!-- Numpad Grid -->
             <div class="numpad">
-                <button onclick="inputNum('1')">1</button>
-                <button onclick="inputNum('2')">2</button>
-                <button onclick="inputNum('3')">3</button>
-                <button onclick="inputNum('4')">4</button>
-                <button onclick="inputNum('5')">5</button>
-                <button onclick="inputNum('6')">6</button>
-                <button onclick="inputNum('7')">7</button>
-                <button onclick="inputNum('8')">8</button>
-                <button onclick="inputNum('9')">9</button>
-                <button onclick="inputNum('00')">00</button>
-                <button onclick="inputNum('0')">0</button>
-                <button class="btn-del" onclick="backspace()">⌫</button>
+                <button class="num-btn" onclick="inputNum('1')">1</button>
+                <button class="num-btn" onclick="inputNum('2')">2</button>
+                <button class="num-btn" onclick="inputNum('3')">3</button>
+                <button class="num-btn" onclick="inputNum('4')">4</button>
+                <button class="num-btn" onclick="inputNum('5')">5</button>
+                <button class="num-btn" onclick="inputNum('6')">6</button>
+                <button class="num-btn" onclick="inputNum('7')">7</button>
+                <button class="num-btn" onclick="inputNum('8')">8</button>
+                <button class="num-btn" onclick="inputNum('9')">9</button>
+                <button class="num-btn btn-action" onclick="clearActive()">CLEAR</button>
+                <button class="num-btn" onclick="inputNum('0')">0</button>
+                <button class="num-btn btn-action btn-icon" onclick="backspace()">⌫</button>
             </div>
-        </div>
 
-        <!-- Dashboard & Save -->
-        <div class="dashboard-container" onclick="resetHistory()" title="Tap to Clear History">
-            <div class="dash-box">
-                <small>Income (<span id="trip-count">0</span>)</small>
-                <div class="val text-success" id="daily-income">0</div>
-            </div>
-            <div class="dash-box">
-                <small>Expenses</small>
-                <div class="val text-danger" id="daily-expense">0</div>
-            </div>
-            <div class="dash-box profit-box">
-                <small>Net Profit</small>
-                <div class="val text-primary" id="daily-profit">0</div>
-            </div>
-        </div>
-        <div class="bottom-action">
-            <button class="save-btn" onclick="saveData()">SAVE DATA ➔</button>
+            <!-- Save Action -->
+            <button class="save-btn" id="save-btn" onclick="saveData()">SAVE DATA</button>
         </div>
     </div>
 
@@ -347,6 +326,7 @@
         let fareStr = "";
         let cashStr = "";
         let expenseStr = "";
+        let isExpenseMode = false;
         let shouldClearCash = false;
         let autoClearTimer;
 
@@ -356,19 +336,66 @@
         let totalExpense = parseFloat(localStorage.getItem('uberTotalExpense')) || 0;
         updateHistoryDisplay();
 
+        // Number Formatting logic (Adds commas like 1,500)
+        function formatNumber(numStr) {
+            if (!numStr || numStr === "") return "0";
+            return parseInt(numStr, 10).toLocaleString('en-US');
+        }
+
+        // Mode Switcher (Fare vs Expense)
+        function toggleExpenseMode() {
+            isExpenseMode = !isExpenseMode;
+            let toggleBtn = document.getElementById('expense-toggle-btn');
+            let saveBtn = document.getElementById('save-btn');
+
+            if (isExpenseMode) {
+                document.getElementById('main-inputs').style.display = 'none';
+                document.getElementById('quick-cash-section').style.display = 'none';
+                document.getElementById('expense-inputs').style.display = 'block';
+                
+                activeField = 'expense';
+                
+                toggleBtn.innerText = "✖ Cancel";
+                toggleBtn.style.background = "var(--btn-hover)";
+                toggleBtn.style.color = "var(--text-main)";
+                
+                saveBtn.innerText = "SAVE EXPENSE";
+                saveBtn.classList.add('expense-mode');
+            } else {
+                document.getElementById('main-inputs').style.display = 'block';
+                document.getElementById('quick-cash-section').style.display = 'flex';
+                document.getElementById('expense-inputs').style.display = 'none';
+                
+                activeField = 'fare';
+                setActive('fare');
+                
+                toggleBtn.innerText = "⛽ Expense";
+                toggleBtn.style.background = "var(--danger-bg)";
+                toggleBtn.style.color = "var(--danger)";
+                
+                saveBtn.innerText = "SAVE DATA";
+                saveBtn.classList.remove('expense-mode');
+            }
+            calculate();
+        }
+
         function setActive(field) {
+            if (isExpenseMode && field !== 'expense') return; 
             activeField = field;
-            document.getElementById('fare-box').classList.remove('active');
-            document.getElementById('cash-box').classList.remove('active');
-            document.getElementById('expense-box').classList.remove('active');
-            document.getElementById(field + '-box').classList.add('active');
+            
+            if (!isExpenseMode) {
+                document.getElementById('fare-box').classList.remove('active');
+                document.getElementById('cash-box').classList.remove('active');
+                document.getElementById(field + '-box').classList.add('active');
+            }
             calculate();
         }
 
         function updateDisplay() {
-            document.getElementById('fare-val').innerText = fareStr || "0";
-            document.getElementById('cash-val').innerText = cashStr || "0";
-            document.getElementById('expense-val').innerText = expenseStr || "0";
+            // Apply number formatting to inputs
+            document.getElementById('fare-val').innerText = formatNumber(fareStr);
+            document.getElementById('cash-val').innerText = formatNumber(cashStr);
+            document.getElementById('expense-val').innerText = formatNumber(expenseStr);
         }
 
         function inputNum(num) {
@@ -381,6 +408,7 @@
             }
             else if (activeField === "expense") targetStr = expenseStr;
 
+            // BUG FIX: Prevent leading zeros when typing 0 or 00 initially
             if (targetStr === "" || targetStr === "0") {
                 if (num === "00" || num === "0") {
                     targetStr = "0";
@@ -391,9 +419,7 @@
                 targetStr += num;
             }
 
-            if (targetStr.length > 6) {
-                targetStr = targetStr.slice(0, 6);
-            }
+            if (targetStr.length > 6) targetStr = targetStr.slice(0, 6);
 
             if (activeField === "fare") fareStr = targetStr;
             else if (activeField === "cash") cashStr = targetStr;
@@ -432,23 +458,20 @@
             let cash = parseFloat(cashStr) || 0;
             let exp = parseFloat(expenseStr) || 0;
             
-            let resultBox = document.getElementById('result-box');
             let resultAmount = document.getElementById('result-amount');
             let denoms = document.getElementById('denominations');
 
             clearTimeout(autoClearTimer);
 
-            if (activeField === "expense") {
-                resultBox.style.backgroundColor = "var(--btn-bg)";
-                resultBox.style.color = "var(--danger)";
-                resultAmount.innerText = exp > 0 ? "- Rs " + exp : "Rs 0";
-                denoms.innerText = "To be recorded as Expense";
+            if (isExpenseMode) {
+                resultAmount.style.color = "var(--danger)";
+                resultAmount.innerText = exp > 0 ? "- Rs " + exp.toLocaleString('en-US') : "Rs 0";
+                denoms.innerText = "To be deducted from profit";
                 return;
             }
 
             if (fare === 0 && cash === 0) {
-                resultBox.style.backgroundColor = "var(--btn-bg)";
-                resultBox.style.color = "var(--text-color)";
+                resultAmount.style.color = "var(--text-main)";
                 resultAmount.innerText = "Rs 0";
                 denoms.innerText = "Change Amount";
                 return;
@@ -457,25 +480,21 @@
             let balance = cash - fare;
 
             if (cash === 0) {
-                resultBox.style.backgroundColor = "var(--btn-bg)";
-                resultBox.style.color = "var(--text-color)";
+                resultAmount.style.color = "var(--text-main)";
                 resultAmount.innerText = "Rs 0";
                 denoms.innerText = "";
             } else if (balance < 0) {
-                resultBox.style.backgroundColor = "var(--danger)";
-                resultBox.style.color = "#fff";
-                resultAmount.innerText = "Rs " + Math.abs(balance);
+                resultAmount.style.color = "var(--danger)";
+                resultAmount.innerText = "Rs " + Math.abs(balance).toLocaleString('en-US');
                 denoms.innerText = "Insufficient Cash!";
             } else if (balance === 0) {
-                resultBox.style.backgroundColor = "var(--success)";
-                resultBox.style.color = "#fff";
+                resultAmount.style.color = "var(--success)";
                 resultAmount.innerText = "Rs 0";
-                denoms.innerText = "Exact Amount";
+                denoms.innerText = "Exact Amount (No Change)";
                 startAutoClear(fare);
             } else {
-                resultBox.style.backgroundColor = "var(--success)";
-                resultBox.style.color = "#fff";
-                resultAmount.innerText = "Rs " + balance;
+                resultAmount.style.color = "var(--success)";
+                resultAmount.innerText = "Rs " + balance.toLocaleString('en-US');
                 denoms.innerText = getDenominations(balance);
                 startAutoClear(fare);
             }
@@ -483,7 +502,7 @@
 
         function startAutoClear(fare) {
             autoClearTimer = setTimeout(() => {
-                if (fare > 0) saveData();
+                if (fare > 0 && !isExpenseMode) saveData();
             }, 20000); 
         }
 
@@ -493,7 +512,7 @@
             for (let note of notes) {
                 if (amount >= note) {
                     let count = Math.floor(amount / note);
-                    parts.push(`Rs.${note}x${count}`);
+                    parts.push(`Rs.${note.toLocaleString('en-US')} x ${count}`);
                     amount = amount % note;
                 }
             }
@@ -505,41 +524,45 @@
             let fare = parseFloat(fareStr) || 0;
             let exp = parseFloat(expenseStr) || 0;
 
-            if (fare > 0 || exp > 0) {
+            if (isExpenseMode) {
+                if (exp > 0) {
+                    totalExpense += exp;
+                    localStorage.setItem('uberTotalExpense', totalExpense);
+                    updateHistoryDisplay();
+                }
+                expenseStr = "";
+                toggleExpenseMode(); 
+            } else {
                 if (fare > 0) {
                     totalIncome += fare;
                     tripCount++;
+                    localStorage.setItem('uberTotalIncome', totalIncome);
+                    localStorage.setItem('uberTripCount', tripCount);
+                    updateHistoryDisplay();
                 }
-                if (exp > 0) {
-                    totalExpense += exp;
-                }
-
-                localStorage.setItem('uberTotalIncome', totalIncome);
-                localStorage.setItem('uberTripCount', tripCount);
-                localStorage.setItem('uberTotalExpense', totalExpense);
-                updateHistoryDisplay();
+                fareStr = ""; cashStr = ""; 
+                setActive('fare');
             }
             
-            fareStr = ""; cashStr = ""; expenseStr = "";
             updateDisplay();
-            setActive('fare');
             calculate();
         }
 
         function updateHistoryDisplay() {
             let profit = totalIncome - totalExpense;
             
-            document.getElementById('daily-income').innerText = totalIncome;
+            // Format numbers with commas for dashboard
+            document.getElementById('daily-income').innerText = totalIncome.toLocaleString('en-US');
             document.getElementById('trip-count').innerText = tripCount;
-            document.getElementById('daily-expense').innerText = totalExpense;
+            document.getElementById('daily-expense').innerText = totalExpense.toLocaleString('en-US');
             
             let profitEl = document.getElementById('daily-profit');
-            profitEl.innerText = profit;
+            profitEl.innerText = profit.toLocaleString('en-US');
             
             if(profit < 0) {
-                profitEl.className = "val text-danger";
+                profitEl.className = "dash-val text-danger";
             } else {
-                profitEl.className = "val text-primary";
+                profitEl.className = "dash-val text-primary";
             }
         }
 
